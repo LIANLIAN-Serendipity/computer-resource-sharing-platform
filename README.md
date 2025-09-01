@@ -95,8 +95,14 @@ npm run serve
 
 ## 🖼️ 项目截图
 ![首页](./screenshots/home.png)
+![登录页面](./screenshots/login.png)
 ![后台管理](./screenshots/admin.png)
-![文章编辑](./screenshots/editor.png)
+![文章管理](./screenshots/manager.png)
+![文章列表](./screenshots/articleList.png)
+![文章详情](./screenshots/articleDetail.png)
+![添加文章](./screenshots/add.png)
+![编辑文章](./screenshots/edit.png)
+![用户管理](./screenshots/usermanager.png)
 
 ## 🤝 贡献指南
 欢迎提交Issue和Pull Request！
