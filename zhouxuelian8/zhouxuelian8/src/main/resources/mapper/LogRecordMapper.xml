@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.smxy.zhouxuelian8.mapper.LogRecordMapper">
+    <insert id="add" parameterType="LogRecord">
+        insert into logrecord(operateName,operateMethodName,operateTime,executionTime)
+        values (#{operateName},#{operateMethodName},#{operateTime},#{executionTime})
+    </insert>
+
+</mapper>

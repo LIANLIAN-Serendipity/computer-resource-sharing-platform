@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.smxy.zhouxuelian8.mapper.FavoriteMapper">
+    <resultMap id="favoriteResultMap" type="cn.smxy.zhouxuelian8.entity.Favorite">
+        <id property="id" column="id"/>
+        <result property="userId" column="userId"/>
+        <result property="articleId" column="articleId"/>
+        <result property="createAt" column="createAt"/>
+        <association property="user" javaType="cn.smxy.zhouxuelian8.entity.User">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="role" column="role"/>
+        </association>
+        <association property="article" javaType="cn.smxy.zhouxuelian8.entity.Article">
+            <id property="id" column="id"/>
+            <result property="title" column="title"/>
+            <result property="author" column="author"/>
+            <result property="simpleabstract" column="simpleabstract"/>
+            <result property="content" column="content"/>
+        </association>
+    </resultMap>
+
+    <delete id="delById" parameterType="Integer">
+        delete from `favorite` where id=#{id}
+    </delete>
+
+    <select id="findById1" parameterType="Integer" resultMap="favoriteResultMap">
+            SELECT `favorite`.*, user.id, user.name, user.phone, user.email, user.role,
+                    article.id, article.title, article.author, article.simpleabstract
+            FROM `favorite`
+                    INNER JOIN user ON `favorite`.userId = user.id
+                    INNER JOIN article ON `favorite`.articleId = article.id
+        where favorite.userId = #{id}
+    </select>
+    <select id="findById" parameterType="Integer" resultType="Favorite">
+        select * from favorite where id=#{id}
+    </select>
+
+    <insert id="add" parameterType="Favorite">
+        insert into favorite (userId, articleId, createAt)
+        values(#{userId}, #{articleId}, #{createAt})
+    </insert>
+
+    <update id="update" parameterType="Favorite">
+        update favorite set userId=#{userId},articleId=#{articleId},createAt=#{createAt} where id=#{id}
+    </update>
+
+</mapper>

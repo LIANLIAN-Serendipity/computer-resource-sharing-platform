@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.smxy.zhouxuelian8.mapper.UserMapper">
+    <select id="findOne" parameterType="User" resultType="User">
+        select * from user
+        where name=#{name} and pwd=#{pwd}
+    </select>
+    <select id="findAll" resultType="User">
+        select *
+        from user
+    </select>
+    <select id="findById" parameterType="Integer" resultType="User">
+        select *
+        from user
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="User">
+        update user
+        set name=#{name},
+        pwd=#{pwd},
+        phone=#{phone},
+        email=#{email},
+        role=#{role}
+        where id = #{id}
+    </update>
+
+    <select id="getByConditions" parameterType="User" resultType="User">
+        select * from user
+        <where>
+            <if test="name!=null and name !='' ">
+                name like concat('%',#{name},'%')
+            </if>
+            <if test="phone !=null and phone!='' ">
+                and phone like concat('%',#{phone},'%')
+            </if>
+            <if test="email !=null and email !='' ">
+                and email like concat('%',#{email},'%')
+            </if>
+        </where>
+    </select>
+    <delete id="delById" parameterType="Integer">
+        delete
+        from user
+        where id = #{id}
+    </delete>
+
+    <insert id="add" parameterType="User">
+        insert into user(name, pwd, phone, email, role)
+        values (#{name}, #{pwd}, #{phone}, #{email}, #{role})
+    </insert>
+
+    <select id="checkUsernameExists" parameterType="String" resultType="int">
+        select count(*) from user where name = #{name}
+    </select>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.smxy.zhouxuelian8.mapper.ArticleMapper">
+
+    <resultMap id="articleResultMap" type="Article">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="typeId" column="typeId"/>
+        <result property="author" column="author"/>
+        <result property="simpleabstract" column="simpleabstract"/>
+        <result property="content" column="content"/>
+        <result property="publishDate" column="publishDate"/>
+        <result property="imagePath" column="imagePath"/>
+        <result property="userId" column="userId"/>
+        <association property="type">
+            <id property="id" column="typeId"/>
+            <result property="typeName" column="typeName"/>
+        </association>
+    </resultMap>
+    <select id="findAll" resultMap="articleResultMap">
+        select article.*, type.typeName from article inner join type on article.typeId=type.id
+    </select>
+
+<insert id="addArticle" parameterType="Article">
+insert into article(title,typeId,author,simpleabstract,content,publishDate,imagePath,userId)
+values(#{title},#{typeId}, #{author}, #{simpleabstract}, #{content}, now(),#{imagePath},#{userId})
+</insert>
+    <select id="findById" parameterType="Integer" resultType="Article">
+        select *
+        from article
+        where id = #{id}
+    </select>
+
+    <select id="getByConditions" parameterType="Article" resultMap="articleResultMap">
+        select article.*, type.typeName from article inner join type on article.typeId=type.id
+        <include refid="whereSql"></include>
+    </select>
+    <sql id="whereSql">
+        <where>
+            <if test="title != null and title != ''">
+                and title like concat('%', #{title}, '%')
+            </if>
+            <if test="author != null and author != ''">
+                and author like concat('%', #{author}, '%')
+            </if>
+            <if test="simpleabstract != null and simpleabstract != ''">
+                and simpleabstract like concat('%', #{simpleabstract}, '%')
+            </if>
+            <if test="content != null and content != ''">
+                and content like concat('%', #{content}, '%')
+            </if>
+        </where>
+    </sql>
+    <delete id="delById" parameterType="Integer">
+        delete from article where id = #{id}
+    </delete>
+
+    <update id="updateArticle" parameterType="Article">
+        update article set title=#{title},typeId=#{typeId},author=#{author},simpleabstract=#{simpleabstract},content=#{content},publishDate=#{publishDate},imagePath=#{imagePath} where id=#{id}
+    </update>
+</mapper>
